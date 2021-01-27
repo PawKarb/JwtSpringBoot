@@ -1,14 +1,11 @@
 package com.spring.jwt.react.app.config;
 
 import com.spring.jwt.react.app.filter.JwtFilter;
-import com.spring.jwt.react.app.model.AppUser;
 import com.spring.jwt.react.app.repository.UserRepository;
 import com.spring.jwt.react.app.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -48,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/user").authenticated()
+                .antMatchers(HttpMethod.GET,"/api/user").hasAnyAuthority()
                 .antMatchers(HttpMethod.GET,"/api/admin").hasAuthority("ADMIN")
                 .antMatchers("/authenticate").permitAll()
                 .and()
@@ -64,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /*@EventListener(ApplicationReadyEvent.class)
     public void get() {
-        AppUser appUser = new AppUser("Admin", passwordEncoder().encode("admin123").toCharArray(), "mail@mail.pl", "ADMIN");
+        AppUser appUser = new AppUser("Admin", passwordEncoder().encode("").toCharArray(), "mail@mail.pl", "ADMIN");
         repo.save(appUser);
     }*/
 }
