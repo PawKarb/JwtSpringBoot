@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 public class MainController {
 
@@ -35,7 +41,7 @@ public class MainController {
     }
 
     @PostMapping("/api/login")
-    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+    public Map generateToken(@RequestBody AuthRequest authRequest, HttpServletResponse response) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
@@ -43,7 +49,7 @@ public class MainController {
         } catch (Exception ex) {
             throw new Exception("inavalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUserName());
+        return Collections.singletonMap("token",jwtUtil.generateToken(authRequest.getUserName()));
     }
 
 }

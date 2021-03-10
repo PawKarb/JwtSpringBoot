@@ -18,7 +18,7 @@ public class JwtUtil {
     @Autowired
     private UserRepository repo;
 
-    private String secret = "secret-key";
+    private String secret = "zIZ?N}l;b:CgJkh";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
